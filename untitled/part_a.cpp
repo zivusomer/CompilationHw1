@@ -27,6 +27,7 @@ int main()
             case WHILE: printToken("WHILE"); break;
             case BREAK: printToken("BREAK"); break;
             case CONTINUE: printToken("CONTINUE"); break;
+            case SC: printToken("SC"); break;
             case COMMA: printToken("COMMA"); break;
             case LPAREN: printToken("LPAREN"); break;
             case RPAREN: printToken("RPAREN"); break;
