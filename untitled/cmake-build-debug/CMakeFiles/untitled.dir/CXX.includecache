@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Users/omerz/Desktop/Technion/Git/untitled/part_a.cpp
+iostream
+-
+tokens.hpp
+C:/Users/omerz/Desktop/Technion/Git/untitled/tokens.hpp
+
+C:/Users/omerz/Desktop/Technion/Git/untitled/part_b.cpp
+tokens.hpp
+C:/Users/omerz/Desktop/Technion/Git/untitled/tokens.hpp
+
+C:/Users/omerz/Desktop/Technion/Git/untitled/tokens.hpp
+

@@ -80,7 +80,10 @@
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="C:/Users/omerz/Desktop/Technion/Git/untitled/main.cpp">
+		<Unit filename="C:/Users/omerz/Desktop/Technion/Git/untitled/part_a.cpp">
+			<Option target="untitled"/>
+		</Unit>
+		<Unit filename="C:/Users/omerz/Desktop/Technion/Git/untitled/tokens.hpp">
 			<Option target="untitled"/>
 		</Unit>
 		<Unit filename="C:/Users/omerz/Desktop/Technion/Git/untitled/CMakeLists.txt">
