@@ -51,6 +51,7 @@ int main()
 			work_stack.push(calculateOp(a, b, op));
 		}
 	}
+	// Not enough operators at the expression
 	if (work_stack.size() > 1){
 		printf("Error: Bad Expression\n");
 		exit(0);
