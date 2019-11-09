@@ -26,7 +26,9 @@ int main()
 	while(token = yylex()) {
 		string yystring = yytext;
 		if (yystring == "\n") break;
+		// Whitespace
 		if (token == -1) continue;
+		// Invalid token
 		if (token != NUM && token != BINOP){
 			printf("Error: %s\n", enumStrings[token]);
 			exit(0);
@@ -39,6 +41,7 @@ int main()
 		if (initial_vector[i].second == NUM) {
 			work_stack.push(stoi(initial_vector[i].first));
 		} else {
+			// Not enough operands at the expression
 			if (work_stack.size() < 2){
 				printf("Error: Bad Expression\n");
 				exit(0);
