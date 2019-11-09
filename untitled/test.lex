@@ -57,10 +57,11 @@ bsq             (\\\")
 bst             (\\t)
 bsz             (\\0)
 hex             ([0-9a-fA-F]{2})
-str_char        ([^\"\\])
+str_char        ([^\"\\\n\r])
 esc_wo_bsnr     ({dbs}|{bsq}|{bst}|{bsz}|{bsx}{hex})
 str_char_w_bsnr ({str_char}|{bsn}|{bsr})
 valid_bsnr_usage({str_char_w_bsnr}*({bsn}|{bsr}){str_char_w_bsnr}+|{str_char_w_bsnr}+({bsn}|{bsr}){str_char_w_bsnr}*)
+undef_esc       ((\\)[^\\\"nrt0x])
 whitespace		([\t\n ])
 
 %%
@@ -95,6 +96,8 @@ whitespace		([\t\n ])
 {letter}({letter_}|{digit})*                                    return ID;
 {pos_digit}{digit}*          			                        return NUM;
 {whitespace}			                                    	;
-.		printf("Lex doesn't know what that is!\n");
+{quote}[^\"\n]*({str_char}|\")                                        return STRING;
+{quote}                                                         return STRING;
+.		                                                        printf("Error %s\n", yytext); exit(0);
 
 %%
