@@ -95,6 +95,7 @@ whitespace		([\t\n ])
 {ds}.*                                                          return COMMENT;
 {letter}({letter_}|{digit})*                                    return ID;
 {pos_digit}{digit}*          			                        return NUM;
+{digit}                                                         return NUM;
 {whitespace}			                                    	;
 {quote}[^\"\n]*({str_char}|\")                                        return STRING;
 {quote}                                                         return STRING;

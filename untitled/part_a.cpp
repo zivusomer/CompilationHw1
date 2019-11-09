@@ -112,7 +112,7 @@ void printToken(const char* token) {
         handleSpecialChars(yystring);
     }
     else if(strcmp(token, "COMMENT") == 0) {
-        yystring = "\\\\";
+        yystring = "//";
     }
     cout << yylineno << " " << token << " " << yystring << endl;
 }
