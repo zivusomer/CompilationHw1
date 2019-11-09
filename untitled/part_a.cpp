@@ -5,8 +5,6 @@
 using namespace std;
 #include <string>
 
-void checkUndefinedESC(string basicString);
-
 void removeQuotes(string& yystring){
     yystring.erase(0,1);
     yystring.erase(yystring.length() -1, 1);
@@ -30,9 +28,8 @@ string ascii(char a, char b) {
     a = '0' <= a && a <= '9' ? (a-'0') : (a-'a' + 10);
     b = '0' <= b && b <= '9' ? (b-'0') : (b-'a' + 10);
     char sum = a*16 + b;
-    //if(sum >= 32 && sum <= 126)
-    return string(1,sum);
-    //return "error"; //error;
+    if(sum >= 0 && sum <= 127) return string(1,sum);
+    return "error"; //error;
 }
 
 void handleSpecialChars(string& yystring) {
@@ -45,18 +42,15 @@ void handleSpecialChars(string& yystring) {
             yystring.replace(i, 2, replacement);
         }
         else {
-            // printf("i+2 = %c, i+3 = %c\n", yystring[i+2],yystring[i+3]);
             string res = ascii(yystring[i+2],yystring[i+3]);
-            //cout << "res = " << res << endl;
             if (res != "error"){
                 yystring.replace(i, 4, res);
             } else {
-                printf("tf");
-                // HANDLE ERROR
-                //error_handle("in_string");
+                printf("Error undefined escape sequence x%c%c\n", yystring[i+2], yystring[i+3]);
+                exit(0);
             }
         }
-    } //TODO: Handle errors within string
+    }
 }
 
 bool InRangeHexa(char x) {
