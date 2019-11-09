@@ -94,7 +94,7 @@ whitespace		([\t\n ])
 {ds}.*                                                          return COMMENT;
 {letter}({letter_}|{digit})*                                    return ID;
 {pos_digit}{digit}*          			                        return NUM;
-{whitespace}				;
+{whitespace}			                                    	;
 .		printf("Lex doesn't know what that is!\n");
 
 %%
