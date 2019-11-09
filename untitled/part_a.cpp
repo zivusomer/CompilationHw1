@@ -108,7 +108,8 @@ void printToken(const char* token) {
     else if(strcmp(token, "COMMENT") == 0) {
         yystring = "//";
     }
-    cout << yylineno << " " << token << " " << yystring << endl;
+    printf("%d %s %s\n", yylineno, token, yystring.c_str());
+    //cout << yylineno << " " << token << " " << yystring << endl;
 }
 
 int main()
