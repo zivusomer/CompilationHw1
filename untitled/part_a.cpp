@@ -151,7 +151,7 @@ int main()
             case ID: printToken("ID"); break;
             case NUM: printToken("NUM"); break;
             case STRING: printToken("STRING"); break;
-            default: return 0; //add error handle here
+            default: break;
 	    }
 	}
 	return 0;

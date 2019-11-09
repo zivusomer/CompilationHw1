@@ -66,7 +66,6 @@ whitespace		([\t\n ])
 
 %%
 
-{quote}({str_char}|{esc_wo_bsnr}|{valid_bsnr_usage})*{quote}    return STRING;
 {void}                                                          return VOID;
 {int}                                                           return INT;
 {byte}                                                          return BYTE;
@@ -96,9 +95,10 @@ whitespace		([\t\n ])
 {letter}({letter_}|{digit})*                                    return ID;
 {pos_digit}{digit}*          			                        return NUM;
 {digit}                                                         return NUM;
-{whitespace}			                                    	;
-{quote}[^\"\n]*({str_char}|\")                                        return STRING;
+{quote}({str_char}|{esc_wo_bsnr}|{valid_bsnr_usage})*{quote}    return STRING;
+{quote}[^\"\n]*({str_char}|\")                                  return STRING;
 {quote}                                                         return STRING;
+{whitespace}			                                    	return -1;
 .		                                                        printf("Error %s\n", yytext); exit(0);
 
 %%
