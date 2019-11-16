@@ -92,7 +92,7 @@ whitespace		([\t\n ])
 {eq}|{neq}|{st}|{lt}|{seq}|{leq}                                return RELOP;
 {plus}|{minus}|{mul}|{div}                                      return BINOP;
 {ds}.*                                                          return COMMENT;
-{letter}({letter_}|{digit})*                                    return ID;
+{letter}({letter}|{digit})*                                    return ID;
 {pos_digit}{digit}*          			                        return NUM;
 {digit}                                                         return NUM;
 {quote}({str_char}|{esc_wo_bsnr}|{valid_bsnr_usage})*{quote}    return STRING;
