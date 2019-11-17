@@ -13,11 +13,12 @@ void removeQuotes(string& yystring){
 //assumes char before 'next' in string is backslash
 string fix_bs(char next) {
     switch(next) {
+        case '\\': return "\\";
+        case '\"': return "\"";
         case 'n': return "\n";
         case 'r': return "\r";
         case 't': return "\t";
-        case '\\': return "\\";
-        case '\"': return "\"";
+        case '0': return "0";
         case 'x': return "x"; //hexa
         default: return "error"; //error;
     }
@@ -38,10 +39,12 @@ void handleSpecialChars(string& yystring) {
         if(yystring[i] != '\\') continue;
         char next = yystring[i + 1];
         string replacement = fix_bs(next);
-        if(replacement != "x") {
+        if (replacement == "0") {
+            yystring = yystring.substr(0, i);
+            break;
+        } else if (replacement != "x") {
             yystring.replace(i, 2, replacement);
-        }
-        else {
+        } else {
             string res = ascii(yystring[i+2],yystring[i+3]);
             if (res != "error"){
                 yystring.replace(i, 4, res);
