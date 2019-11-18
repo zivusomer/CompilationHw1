@@ -111,11 +111,6 @@ whitespace		([\t\n ])
                                                                     return STRING;
                                                                 }
 
-<str>[\n\r]                                                     {
-                                                                    BEGIN(INITIAL);
-                                                                    return ERROR_UNCLOSED_STRING;
-                                                                }
-
 <str>{bs}                                                       *str_buff_ptr++ = '\\';
 <str>{bsq}                                                      *str_buff_ptr++ = '\"';
 <str>{bsn}                                                      *str_buff_ptr++ = '\n';
@@ -124,6 +119,7 @@ whitespace		([\t\n ])
 <str>{bsz}                                                      *str_buff_ptr++ = '\0';
 <str>{bsx}{hex}                                                 *str_buff_ptr++ = ascii(yytext[2], yytext[3]);
 
+<str>[\n\r]                                                     return ERROR_UNCLOSED_STRING;
 <str>{bsx}{digit_letter}                                        return ERROR_UNDEFINED_ESCAPE_SEQ_HEX_1;
 <str>{bsx}{digit_letter}{digit_letter}                          return ERROR_UNDEFINED_ESCAPE_SEQ_HEX_2;
 <str>{bs}.                                                      return ERROR_UNDEFINED_ESCAPE_SEQ;
