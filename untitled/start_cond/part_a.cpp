@@ -70,7 +70,6 @@ int main()
             case ERROR_UNDEFINED_ESCAPE_SEQ: printToken("ERROR_UNDEFINED_ESCAPE_SEQ"); break;
             case ERROR_UNDEFINED_ESCAPE_SEQ_HEX_1: printToken("ERROR_UNDEFINED_ESCAPE_SEQ_HEX_1"); break;
             case ERROR_UNDEFINED_ESCAPE_SEQ_HEX_2: printToken("ERROR_UNDEFINED_ESCAPE_SEQ_HEX_2"); break;
-            case ERROR_CHAR: printToken("ERROR_CHAR"); break;
             default: break;
 	    }
 	}
