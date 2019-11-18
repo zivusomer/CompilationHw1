@@ -1,9 +1,11 @@
-#include <iostream>
-#include "tokens.hpp"
-using namespace std;
-#include <stack>
 #include <string>
+#include <stack>
 #include <vector>
+#include "tokens.hpp"
+using std::string;
+using std::stack;
+using std::vector;
+using std::pair;
 
 int calculateOp(int a, int b, const string& op) {
 	if (op == "+") return a + b;
@@ -15,6 +17,7 @@ int calculateOp(int a, int b, const string& op) {
 
 int main()
 {
+    int token;
     vector<pair<string,int>> initial_vector;
     stack<int> work_stack;
     const char* enumStrings[30] = {"", "VOID", "INT", "BYTE", "B", "BOOL", "AND",
@@ -22,7 +25,7 @@ int main()
 							  "WHILE", "BREAK", "CONTINUE", "SC", "COMMA",
 							  "LPAREN", "RPAREN", "LBRACE", "RBRACE", "ASSIGN",
 							  "RELOP", "BINOP", "COMMENT", "ID", "NUM", "STRING"};
-	int token;
+
 	while(token = yylex()) {
 		string yystring = yytext;
 		if (yystring == "\n") break;
@@ -37,6 +40,7 @@ int main()
 		pair<string, int> currentPair(string(yytext), token);
 		initial_vector.push_back(currentPair);
 	}
+
 	for (int i = initial_vector.size() - 1; i >=0; --i) {
 		if (initial_vector[i].second == NUM) {
 			work_stack.push(stoi(initial_vector[i].first));
@@ -54,6 +58,7 @@ int main()
 			work_stack.push(calculateOp(a, b, op));
 		}
 	}
+
 	// Not enough operators at the expression
 	if (work_stack.size() > 1){
 		printf("Error: Bad Expression\n");

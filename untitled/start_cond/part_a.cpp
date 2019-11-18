@@ -1,5 +1,3 @@
-#include <iostream>
-#include <cstring>
 #include <string>
 #include "tokens.hpp"
 using std::string;
@@ -31,7 +29,6 @@ void printToken(const string& token_str) {
         return;
     }
     printf("%d %s %s\n", yylineno, token_str.c_str(), yystring.c_str());
-    //cout << yylineno << " " << token << " " << yystring << endl;
 }
 
 int main()
