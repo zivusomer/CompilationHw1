@@ -1,6 +1,7 @@
 #include <string>
 #include <stack>
 #include <vector>
+#include <iostream>
 #include "tokens.hpp"
 using std::string;
 using std::stack;
@@ -20,20 +21,29 @@ int main()
     int token;
     vector<pair<string,int>> initial_vector;
     stack<int> work_stack;
-    const char* enumStrings[30] = {"", "VOID", "INT", "BYTE", "B", "BOOL", "AND",
+    const char* enumStrings[35] = {"", "VOID", "INT", "BYTE", "B", "BOOL", "AND",
 							  "OR", "NOT", "TRUE", "FALSE", "RETURN", "IF", "ELSE",
 							  "WHILE", "BREAK", "CONTINUE", "SC", "COMMA",
 							  "LPAREN", "RPAREN", "LBRACE", "RBRACE", "ASSIGN",
-							  "RELOP", "BINOP", "COMMENT", "ID", "NUM", "STRING"};
+							  "RELOP", "BINOP", "COMMENT", "ID", "NUM", "STRING",
+							  "WHITESPACE", "ERROR_UNCLOSED_STRING", "ERROR_UNDEFINED_ESCAPE_SEQ",
+							  "ERROR_UNDEFINED_ESCAPE_SEQ_HEX_1", "ERROR_UNDEFINED_ESCAPE_SEQ_HEX_2"};
 
 	while(token = yylex()) {
-		string yystring = yytext;
-		if (yystring == "\n") break;
-		// Whitespace
-		if (token == WHITESPACE) continue;
+	    string yystring = yytext;
+		if (token == WHITESPACE){
+		    // End of equation
+            if (yystring == "\n") break;
+            // Space
+            continue;
+		}
 		// Invalid token
 		if (token != NUM && token != BINOP){
-			printf("Error: %s\n", enumStrings[token]);
+		    if (string(enumStrings[token]).rfind("ERROR", 0) == 0){
+		        printf("Error: STRING\n");
+		    } else {
+                printf("Error: %s\n", enumStrings[token]);
+		    }
 			exit(0);
 		}
 

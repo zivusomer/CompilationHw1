@@ -111,15 +111,23 @@ whitespace		([\t\n ])
                                                                     return STRING;
                                                                 }
 
+<str>[^\"\n\r]*[\n\r]                                           return ERROR_UNCLOSED_STRING;
+
 <str>{bs}                                                       *str_buff_ptr++ = '\\';
 <str>{bsq}                                                      *str_buff_ptr++ = '\"';
 <str>{bsn}                                                      *str_buff_ptr++ = '\n';
 <str>{bsr}                                                      *str_buff_ptr++ = '\r';
 <str>{bst}                                                      *str_buff_ptr++ = '\t';
 <str>{bsz}                                                      *str_buff_ptr++ = '\0';
-<str>{bsx}{hex}                                                 *str_buff_ptr++ = ascii(yytext[2], yytext[3]);
+<str>{bsx}{hex}                                                 {
+                                                                    char ascii_char = ascii(yytext[2], yytext[3]);
+                                                                    if (0 <= ascii_char && ascii_char <= 127){
+                                                                        *str_buff_ptr++ = ascii_char;
+                                                                    } else {
+                                                                        return ERROR_UNDEFINED_ESCAPE_SEQ_HEX_2;
+                                                                    }
+                                                                }
 
-<str>[\n\r]                                                     return ERROR_UNCLOSED_STRING;
 <str>{bsx}{digit_letter}                                        return ERROR_UNDEFINED_ESCAPE_SEQ_HEX_1;
 <str>{bsx}{digit_letter}{digit_letter}                          return ERROR_UNDEFINED_ESCAPE_SEQ_HEX_2;
 <str>{bs}.                                                      return ERROR_UNDEFINED_ESCAPE_SEQ;

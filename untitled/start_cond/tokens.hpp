@@ -1,5 +1,6 @@
 #ifndef TOKENS_HPP_
 #define TOKENS_HPP_
+
   enum tokentype
   {
     VOID = 1,
