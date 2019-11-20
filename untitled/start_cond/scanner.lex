@@ -94,7 +94,7 @@ whitespace		([\t\n ])
 {assign}                                                        return ASSIGN;
 {eq}|{neq}|{st}|{lt}|{seq}|{leq}                                return RELOP;
 {plus}|{minus}|{mul}|{div}                                      return BINOP;
-{ds}.*                                                          return COMMENT;
+{ds}[^\n\r]*                                                    return COMMENT;
 {letter}({letter}|{digit})*                                     return ID;
 {pos_digit}{digit}*          			                        return NUM;
 {digit}                                                         return NUM;
