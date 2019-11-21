@@ -1,6 +1,10 @@
 #ifndef TOKENS_HPP_
 #define TOKENS_HPP_
 
+#define ERROR_FIRST_CHAR 0
+#define ERROR_SECOND_CHAR 1
+#define ERROR_MAX_LENGTH 2
+
   enum tokentype
   {
     VOID = 1,
@@ -42,4 +46,6 @@
   extern char* yytext;
   extern size_t yyleng;
   extern int yylex();
+
+  extern char error_note[ERROR_MAX_LENGTH];
 #endif /* TOKENS_HPP_ */

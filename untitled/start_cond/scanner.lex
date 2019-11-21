@@ -9,6 +9,9 @@ char ascii(char a, char b);
 char str_buff[MAX_BUFF_SIZE];
 char *str_buff_ptr;
 
+tokentype error_type = STRING;
+char error_note[ERROR_MAX_LENGTH];
+
 %}
 
 %option yylineno
@@ -65,7 +68,6 @@ bsz             (\\0)
 hex             ([0-9a-fA-F]{2})
 str_char        ([^\"\\\n\r])
 whitespace      ([\t\n\r ])
-EOF             <<EOF>>
 
 
 %x str
@@ -110,10 +112,10 @@ EOF             <<EOF>>
                                                                     BEGIN(INITIAL);
                                                                     *str_buff_ptr = '\0';
                                                                     yytext = str_buff;
-                                                                    return STRING;
+                                                                    return error_type;
                                                                 }
 
-<str>[^\"\n\r]*[\n\r]                                           return ERROR_UNCLOSED_STRING;
+<str>[\n\r]                                                     return ERROR_UNCLOSED_STRING;
 <str><<EOF>>                                                    return ERROR_UNCLOSED_STRING;
 
 <str>{bs}                                                       *str_buff_ptr++ = '\\';
@@ -127,15 +129,29 @@ EOF             <<EOF>>
                                                                     if (0 <= ascii_char && ascii_char <= 127){
                                                                         *str_buff_ptr++ = ascii_char;
                                                                     } else {
-                                                                        return ERROR_UNDEFINED_ESCAPE_SEQ_HEX_2;
+                                                                        if (error_type == STRING) {
+                                                                            error_type = ERROR_UNDEFINED_ESCAPE_SEQ_HEX_2;
+                                                                            error_note[ERROR_FIRST_CHAR] = yytext[2];
+                                                                            error_note[ERROR_SECOND_CHAR] = yytext[3];
+                                                                        }
                                                                     }
                                                                 }
 
-<str>{bsx}{digit_letter}                                        return ERROR_UNDEFINED_ESCAPE_SEQ_HEX_1;
-<str>{bsx}{digit_letter}{digit_letter}                          return ERROR_UNDEFINED_ESCAPE_SEQ_HEX_2;
-<str>{bs}.                                                      return ERROR_UNDEFINED_ESCAPE_SEQ;
+<str>{bsx}{digit_letter}                                        if (error_type == STRING) {
+                                                                    error_type = ERROR_UNDEFINED_ESCAPE_SEQ_HEX_1;
+                                                                    error_note[ERROR_FIRST_CHAR] = yytext[2];
+                                                                }
+<str>{bsx}{digit_letter}{digit_letter}                          if (error_type == STRING) {
+                                                                    error_type = ERROR_UNDEFINED_ESCAPE_SEQ_HEX_2;
+                                                                    error_note[ERROR_FIRST_CHAR] = yytext[2];
+                                                                    error_note[ERROR_SECOND_CHAR] = yytext[3];
+                                                                }
+<str>{bs}.                                                      if (error_type == STRING) {
+                                                                    error_type = ERROR_UNDEFINED_ESCAPE_SEQ;
+                                                                    error_note[ERROR_FIRST_CHAR] = yytext[1];
+                                                                }
 
-<str>{str_char}+                                                 {
+<str>{str_char}+                                                {
                                                                     char *current_char = yytext;
                                                                     while (*current_char){
                                                                         *str_buff_ptr++ = *current_char++;

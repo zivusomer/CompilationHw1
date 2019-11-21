@@ -7,13 +7,13 @@ void handleErrors(const string& token_str, const string& yystring) {
         printf("Error unclosed string\n");
         exit(0);
     } else if (token_str == "ERROR_UNDEFINED_ESCAPE_SEQ") {
-        printf("Error undefined escape sequence %c\n", yystring[yystring.length() - 1]);
+        printf("Error undefined escape sequence %c\n", error_note[ERROR_FIRST_CHAR]);
         exit(0);
     } else if (token_str == "ERROR_UNDEFINED_ESCAPE_SEQ_HEX_1") {
-        printf("Error undefined escape sequence x%c\n", yystring[yystring.length() - 1]);
+        printf("Error undefined escape sequence x%c\n", error_note[ERROR_FIRST_CHAR]);
         exit(0);
     } else if (token_str == "ERROR_UNDEFINED_ESCAPE_SEQ_HEX_2") {
-        printf("Error undefined escape sequence x%c%c\n", yystring[yystring.length() - 2], yystring[yystring.length() - 1]);
+        printf("Error undefined escape sequence x%c%c\n", error_note[ERROR_FIRST_CHAR], error_note[ERROR_SECOND_CHAR]);
         exit(0);
     }
     exit(-1);
