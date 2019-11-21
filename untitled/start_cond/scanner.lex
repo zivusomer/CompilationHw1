@@ -64,7 +64,9 @@ bst             (\\t)
 bsz             (\\0)
 hex             ([0-9a-fA-F]{2})
 str_char        ([^\"\\\n\r])
-whitespace		([\t\n ])
+whitespace      ([\t\n\r ])
+EOF             <<EOF>>
+
 
 %x str
 %%
@@ -112,6 +114,7 @@ whitespace		([\t\n ])
                                                                 }
 
 <str>[^\"\n\r]*[\n\r]                                           return ERROR_UNCLOSED_STRING;
+<str><<EOF>>                                                    return ERROR_UNCLOSED_STRING;
 
 <str>{bs}                                                       *str_buff_ptr++ = '\\';
 <str>{bsq}                                                      *str_buff_ptr++ = '\"';
